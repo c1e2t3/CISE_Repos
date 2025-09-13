@@ -1,0 +1,17 @@
+steps:
+  - name: Checkout repository
+    uses: actions/checkout@v2
+    with:
+      ref: development
+
+  - name: Set up Node.js
+    uses: actions/setup-node@v1
+    with:
+      node-version: ${{ matrix.node-version }}
+
+  - name: Install and test
+    run: |
+      cd worksheet2/my-react-app
+      npm install
+      npm test
+      npm run build
