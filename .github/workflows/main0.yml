@@ -1,0 +1,38 @@
+name: CI_action
+
+on:
+  push:
+    branches: [main, development]
+  pull_request:
+    branches: [main, development]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [12.x]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+        with:
+          ref: development  # 指定检出 development 分支
+
+      - name: Set up Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Install dependencies
+        run: npm install
+        working-directory: worksheet2/my-react-app  # 指定工作目录
+
+      - name: Run the tests
+        run: npm test
+        working-directory: worksheet2/my-react-app  # 指定工作目录
+
+      - name: Build
+        run: npm run build
+        working-directory: worksheet2/my-react-app  # 指定工作目录
